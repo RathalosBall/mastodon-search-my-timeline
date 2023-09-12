@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+        <title>Requests Tutorial</title>
+
+        <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+        <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    </head>
+    <body>
+      <py-config>
+        packages = ["requests", "pyodide-http"]
+      </py-config>
+
+      <py-script>
+        # import os
+        # import sys
+        # import subprocess
+        # import requests
+        # import pyodide_http
+        # from pyscript import when
+        # from js import alert, navigator
+        import json
+        from js import window, localStorage, URL
+        import asyncio
+
+        # Patch the Requests library so it works with Pyscript
+        # pyodide_http.patch_all()
+        print(window.location.href)
+        code = URL.new(window.location.href).searchParams.get("code")
+        if code:
+            localStorage.setItem("oauth_code", json.dumps(code))
+            print(code)
+            print(localStorage.getItem("oauth_code"))
+        else:
+            print("Code query not passed")
+
+        def goto_url(url="/"):
+            window.location.replace(url)
+
+        # goto_url()
+
+      </py-script>
+<!--
+      <button py-click="current_time()" id="get-time" class="py-button">Get current time</button>
+      <p id="current-time"></p>
+-->
+      <button py-click="goto_url()" id="redirect" class="py-button">Redirect</button>
+    </body>
+</html>
+
